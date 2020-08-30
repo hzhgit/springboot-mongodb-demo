@@ -20,4 +20,10 @@ public class User {
                 ", sex='" + sex + '\'' +
                 '}';
     }
+
+    public User(Integer id, String name, String sex) {
+        this.id = id;
+        this.name = name;
+        this.sex = sex;
+    }
 }
