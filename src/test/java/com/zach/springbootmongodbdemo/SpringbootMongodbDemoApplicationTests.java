@@ -18,10 +18,11 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 class SpringbootMongodbDemoApplicationTests {
     @Autowired
     private MongoTemplate mongoTemplate;
+
     @Test
     void addTest() {
-        User user1 = new User(1,"zach","male");
-        User user2 = new User(2,"york","female");
+        User user1 = new User(1, "zach", "male");
+        User user2 = new User(2, "york", "female");
         user1 = mongoTemplate.insert(user1);
         System.out.println(user1);
         user2 = mongoTemplate.insert(user2);
@@ -29,7 +30,7 @@ class SpringbootMongodbDemoApplicationTests {
     }
 
     @Test
-    void findTest(){
+    void findTest() {
         List<User> users = mongoTemplate.findAll(User.class);
         users.forEach(u -> {
             System.out.println(u.toString());
@@ -38,9 +39,25 @@ class SpringbootMongodbDemoApplicationTests {
 
     @Test
     void updateTest() {
-        mongoTemplate.updateFirst(query(where("id").is(1)), Update.update("name","zach222"),User.class);
+        mongoTemplate.updateFirst(query(where("id").is(1)), Update.update("name", "zach222"), User.class);
         Query query = Query.query(Criteria.where("id").is(1));
-        List<User> users = mongoTemplate.find(query,User.class);
+        List<User> users = mongoTemplate.find(query, User.class);
         System.out.println(users.get(0));
+    }
+
+    @Test
+    void deleteTest() {
+        User user1 = new User();
+        User user2 = new User();
+        user1.setId(1);
+        user2.setId(2);
+        mongoTemplate.remove(user1);
+        mongoTemplate.remove(user2);
+
+        List<User> users = mongoTemplate.findAll(User.class);
+        users.forEach(u -> {
+            System.out.println(u.toString());
+        });
+        System.out.println(users.size());
     }
 }
