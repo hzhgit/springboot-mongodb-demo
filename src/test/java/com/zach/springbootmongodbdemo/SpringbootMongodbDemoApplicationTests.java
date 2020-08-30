@@ -5,8 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 @SpringBootTest
 class SpringbootMongodbDemoApplicationTests {
@@ -24,10 +30,17 @@ class SpringbootMongodbDemoApplicationTests {
 
     @Test
     void findTest(){
-        User user = new User();
         List<User> users = mongoTemplate.findAll(User.class);
         users.forEach(u -> {
             System.out.println(u.toString());
         });
+    }
+
+    @Test
+    void updateTest() {
+        mongoTemplate.updateFirst(query(where("id").is(1)), Update.update("name","zach222"),User.class);
+        Query query = Query.query(Criteria.where("id").is(1));
+        List<User> users = mongoTemplate.find(query,User.class);
+        System.out.println(users.get(0));
     }
 }
