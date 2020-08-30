@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import java.util.List;
+
 @SpringBootTest
 class SpringbootMongodbDemoApplicationTests {
     @Autowired
@@ -20,4 +22,12 @@ class SpringbootMongodbDemoApplicationTests {
         System.out.println(user2);
     }
 
+    @Test
+    void findTest(){
+        User user = new User();
+        List<User> users = mongoTemplate.findAll(User.class);
+        users.forEach(u -> {
+            System.out.println(u.toString());
+        });
+    }
 }
